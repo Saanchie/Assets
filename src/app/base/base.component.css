@@ -1,0 +1,46 @@
+:host >>> .popover-title {
+  background-color: #f7f7f7;
+  color: #343a40
+}
+
+.margin-50 {
+  margin: 50px;
+}
+
+th {
+  font-weight: bold;
+}
+
+.mb-30 {
+  margin-bottom: 30px;
+}
+
+.asc{
+  position: absolute;
+  height: 8px;
+  width: 10px;
+  margin-left: -9px;
+  margin-top: -4px;
+  color: black;
+  cursor: pointer;
+}
+
+.desc{
+  position: absolute;
+  height: 8px;
+  width: 10px;
+  margin-left: -9px;
+  margin-top: 4px;
+  margin-right: 1px;
+  color: black;
+  cursor: pointer;
+}
+
+.fa-sort, .fa-filter{
+  color:gray;
+  cursor: pointer;
+}
+
+.black {
+  color: black;
+}

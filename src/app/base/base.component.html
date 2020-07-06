@@ -1,0 +1,165 @@
+<div class="margin-50 table-wrap">
+  <h2 class="mb-30"> {{baseService.constants.title}}</h2>
+  <div class="alert alert-warning" *ngIf="!baseService.displayincorrectValue && baseService.favoriteAssets.length === 0 && baseService.filteredAssets.length === 0" role="alert">
+    {{baseService.constants.noAssetsMessage}}
+  </div>
+  <div class="alert alert-warning" *ngIf="baseService.displayincorrectValue" role="alert">
+    {{baseService.constants.valueIncorrectMessage}}
+  </div>
+  <div class="alert alert-warning" *ngIf="baseService.lastUpdateFilterMessage" role="alert">
+    {{baseService.constants.lastUpdateFilterMessage}}
+  </div>
+  <table class="table table-hover table-bordered table-striped">
+    <thead class="table-secondary">
+      <tr>
+        <th scope="col">
+        </th>
+        <th scope="col">
+          <span>
+            Id            
+            <span class="fa fa-sort" (click)="sortType = 'id'; sortReverse = !sortReverse">
+              <span *ngIf="sortType === 'id' && !sortReverse" class="fa fa-caret-down desc"></span>
+              <span *ngIf="sortType === 'id' && sortReverse" class="fa fa-caret-up asc"></span>
+            </span>
+          </span>
+
+          <span #idPopOver="bs-popover" [popover]="idFilterTemplate" placement="right" popoverTitle="Filter"
+            [outsideClick]="true" [ngClass]="baseService.enableIdFilter ? 'ml-2 fa fa-filter black' : 'ml-2 fa fa-filter'"></span>
+        </th>
+        <th scope="col">
+          <span>
+            Name
+            <span class="fa fa-sort" (click)="sortType = 'assetName'; sortReverse = !sortReverse">
+              <span *ngIf="sortType === 'assetName' && !sortReverse" class="fa fa-caret-down desc"></span>
+              <span *ngIf="sortType === 'assetName' && sortReverse" class="fa fa-caret-up asc"></span>
+            </span>
+          </span>
+
+          <span #namePopOver="bs-popover" [popover]="assetNameFilterTemplate" placement="right" popoverTitle="Filter"
+            [outsideClick]="true" [ngClass]="baseService.enableNameFilter ? 'ml-2 fa fa-filter black' : 'ml-2 fa fa-filter'"></span>
+        </th>
+        <th scope="col">
+          <span>
+            Price
+            <span class="fa fa-sort" (click)="sortType = 'price'; sortReverse = !sortReverse">
+              <span *ngIf="sortType === 'price' && !sortReverse" class="fa fa-caret-down desc"></span>
+              <span *ngIf="sortType === 'price' && sortReverse" class="fa fa-caret-up asc"></span>
+            </span>
+          </span>
+
+          <span #pricePopOver="bs-popover" [popover]="priceFilterTemplate" placement="right" popoverTitle="Filter"
+            [outsideClick]="true" [ngClass]="baseService.enablePriceFilter ? 'ml-2 fa fa-filter black' : 'ml-2 fa fa-filter'"></span>
+        </th>
+        <th scope="col">
+          <span>
+            Last Update
+            <span class="fa fa-sort" (click)="sortType = 'lastUpdate'; sortReverse = !sortReverse">
+              <span *ngIf="sortType === 'lastUpdate' && !sortReverse" class="fa fa-caret-down desc"></span>
+              <span *ngIf="sortType === 'lastUpdate' && sortReverse" class="fa fa-caret-up asc"></span>
+            </span>
+          </span>
+
+          <span class="fa fa-filter" (click)='filterLastUpdate()'></span>
+        </th>
+        <th scope="col">
+          <span>
+            Type
+            <span class="fa fa-sort" (click)="sortType = 'type'; sortReverse = !sortReverse">
+              <span *ngIf="sortType === 'type' && !sortReverse" class="fa fa-caret-down desc"></span>
+              <span *ngIf="sortType === 'type' && sortReverse" class="fa fa-caret-up asc"></span>
+            </span>
+          </span>
+
+          <span #typePopOver="bs-popover" [popover]="typeFilterTemplate" placement="right" popoverTitle="Filter"
+            [outsideClick]="true" [ngClass]="baseService.enableTypeFilter ? 'ml-2 fa fa-filter black' : 'ml-2 fa fa-filter'"></span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="baseService.favoriteAssets.length > 0 || baseService.filteredAssets.length > 0; else noAssets">
+        <tr *ngFor="let asset of baseService.favoriteAssets| orderBy:sortType:sortReverse; let i = index">
+          <td (click)="removeFromFavorites(i)">
+            <i class="fa fa-star">
+            </i>
+          </td>
+          <td>{{asset.id}}</td>
+          <td>{{asset.assetName}}</td>
+          <td>{{asset.price | currency}}</td>
+          <td>{{asset.lastUpdate | date:'mediumTime' }}</td>
+          <td>{{asset.type}}</td>
+        </tr>
+        <tr *ngFor="let asset of baseService.filteredAssets| orderBy:sortType:sortReverse; let i = index">
+          <td (click)="addToFavorites(i)">
+            <i class="fa fa-star-o">
+            </i>
+          </td>
+          <td>{{asset.id}}</td>
+          <td>{{asset.assetName}}</td>
+          <td>{{asset.price | currency}}</td>
+          <td>{{asset.lastUpdate | date:'mediumTime'}}</td>
+          <td>{{asset.type}}</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #idFilterTemplate>
+  <form [formGroup]="baseService.filterForm" (ngSubmit)="filterAssets(); idPopOver.hide()">
+    <label>
+      <input class="form-control" type="number" min="1" max="400" formControlName="idFilter">
+    </label>
+    <div class="d-flex justify-content-between">
+      <button type="reset" class="btn btn-danger"
+        (click)="resetFormControl('idFilter'); idPopOver.hide()">Clear</button>
+      <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #assetNameFilterTemplate>
+  <form [formGroup]="baseService.filterForm" (ngSubmit)="filterAssets(); namePopOver.hide()">
+    <label>
+      <input class="form-control" type="text" formControlName="assetNameFilter">
+    </label>
+    <div class="d-flex justify-content-between">
+      <button type="reset" class="btn btn-danger"
+        (click)="resetFormControl('assetNameFilter'); namePopOver.hide()">Clear</button>
+      <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #priceFilterTemplate>
+  <form [formGroup]="baseService.filterForm" (ngSubmit)="filterAssets(); pricePopOver.hide()">
+    <div class="form-group">
+      <select class="form-control" formControlName="priceFilter">
+        <option>$1-$25</option>
+        <option>$26-$50</option>
+        <option>$51-$100</option>
+        <option>More than $100</option>
+      </select>
+    </div>
+    <div class="d-flex justify-content-between">
+      <button type="reset" class="btn btn-danger"
+        (click)="resetFormControl('priceFilter'); pricePopOver.hide()">Clear</button>
+      <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #typeFilterTemplate>
+  <form [formGroup]="baseService.filterForm" (ngSubmit)="filterAssets(); typePopOver.hide()">
+    <div class="form-group">
+      <select class="form-control" formControlName="typeFilter">
+        <option>Stock</option>
+        <option>Currency</option>
+      </select>
+    </div>
+    <div class="d-flex justify-content-between">
+      <button type="button" class="btn btn-danger"
+        (click)="resetFormControl('typeFilter'); typePopOver.hide()">Clear</button>
+      <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+  </form>
+</ng-template>
