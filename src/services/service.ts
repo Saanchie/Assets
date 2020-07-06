@@ -82,6 +82,7 @@ export class BaseService {
     from(assets).subscribe((asset) => {
       const random = Math.random();
       asset.setPrice(random >= 0.5 ? asset.getPrice() + random : asset.getPrice() - random);
+      asset.setLastUpdate(Date.now());
     },
       (error) => console.error('Error in updating assets: ', error)
     );
