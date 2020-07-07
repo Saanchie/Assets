@@ -192,10 +192,6 @@ export class BaseService {
       this.enableTypeFilter = true;
     }
 
-    else {
-      this.displayincorrectValue = false;  
-    }
-
     //this.favoriteAssets = assets.filter(this.isFavoriteAsset.bind(this)); // use this if favorites should not be pinned after using filter
     this.filteredAssets = assets.filter(this.isNotFavoriteAsset.bind(this));
   }
