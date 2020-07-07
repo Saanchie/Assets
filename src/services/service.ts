@@ -137,6 +137,7 @@ export class BaseService {
   public filterAssets() {
     var assets = this.assets.slice();
     this.lastUpdateFilterMessage = false;
+    this.displayincorrectValue = false;
 
     if (this.filterForm.value.idFilter < Constants.maxNumberOfAssets && this.filterForm.value.idFilter > Constants.minNumberOfAssets) {
       assets = assets.filter(asset => asset.getId() === this.filterForm.value.idFilter);
@@ -193,6 +194,10 @@ export class BaseService {
   public resetFormControl(formControlName: string) {
     this.filterForm.get(formControlName).reset();
     this.displayincorrectValue = false;
+    this.enableIdFilter = false;
+    this.enableNameFilter = false;
+    this.enablePriceFilter = false;
+    this.enableTypeFilter = false;
     this.filterAssets();
   }
 
