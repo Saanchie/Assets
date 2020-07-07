@@ -144,13 +144,7 @@ export class BaseService {
       this.enableIdFilter = true;
     }
 
-    if (this.filterForm.value.idFilter > Constants.maxNumberOfAssets || this.filterForm.value.idFilter < Constants.minNumberOfAssets) {
-      assets = assets.filter(asset => asset.getId() === this.filterForm.value.idFilter);
-      this.displayincorrectValue = true;
-      this.enableIdFilter = true;
-    }
-
-    if (this.filterForm.value.idFilter === Constants.minNumberOfAssets) {
+    if (this.filterForm.value.idFilter > Constants.maxNumberOfAssets || this.filterForm.value.idFilter < Constants.minNumberOfAssets || this.filterForm.value.idFilter === Constants.minNumberOfAssets || this.filterForm.value.idFilter === Constants.maxNumberOfAssets) {
       assets = assets.filter(asset => asset.getId() === this.filterForm.value.idFilter);
       this.displayincorrectValue = true;
       this.enableIdFilter = true;
@@ -198,6 +192,7 @@ export class BaseService {
 
   public resetFormControl(formControlName: string) {
     this.filterForm.get(formControlName).reset();
+    this.displayincorrectValue = false;
     this.filterAssets();
   }
 
