@@ -17,7 +17,7 @@
         <th scope="col">
           <span>
             Id            
-            <span class="fa fa-sort" (click)="sortType = 'id'; sortReverse = !sortReverse">
+            <span class="fa fa-sort" (click)="baseService.lastUpdateFilterMessage = false; sortType = 'id'; sortReverse = !sortReverse">
               <span *ngIf="sortType === 'id' && !sortReverse" class="fa fa-caret-down desc"></span>
               <span *ngIf="sortType === 'id' && sortReverse" class="fa fa-caret-up asc"></span>
             </span>
@@ -29,7 +29,7 @@
         <th scope="col">
           <span>
             Name
-            <span class="fa fa-sort" (click)="sortType = 'assetName'; sortReverse = !sortReverse">
+            <span class="fa fa-sort" (click)="baseService.lastUpdateFilterMessage = false; sortType = 'assetName'; sortReverse = !sortReverse">
               <span *ngIf="sortType === 'assetName' && !sortReverse" class="fa fa-caret-down desc"></span>
               <span *ngIf="sortType === 'assetName' && sortReverse" class="fa fa-caret-up asc"></span>
             </span>
@@ -41,7 +41,7 @@
         <th scope="col">
           <span>
             Price
-            <span class="fa fa-sort" (click)="sortType = 'price'; sortReverse = !sortReverse">
+            <span class="fa fa-sort" (click)="baseService.lastUpdateFilterMessage = false; sortType = 'price'; sortReverse = !sortReverse">
               <span *ngIf="sortType === 'price' && !sortReverse" class="fa fa-caret-down desc"></span>
               <span *ngIf="sortType === 'price' && sortReverse" class="fa fa-caret-up asc"></span>
             </span>
@@ -53,7 +53,7 @@
         <th scope="col">
           <span>
             Last Update
-            <span class="fa fa-sort" (click)="sortType = 'lastUpdate'; sortReverse = !sortReverse">
+            <span class="fa fa-sort" (click)="baseService.lastUpdateFilterMessage = false; sortType = 'lastUpdate'; sortReverse = !sortReverse">
               <span *ngIf="sortType === 'lastUpdate' && !sortReverse" class="fa fa-caret-down desc"></span>
               <span *ngIf="sortType === 'lastUpdate' && sortReverse" class="fa fa-caret-up asc"></span>
             </span>
@@ -64,7 +64,7 @@
         <th scope="col">
           <span>
             Type
-            <span class="fa fa-sort" (click)="sortType = 'type'; sortReverse = !sortReverse">
+            <span class="fa fa-sort" (click)="baseService.lastUpdateFilterMessage = false; sortType = 'type'; sortReverse = !sortReverse">
               <span *ngIf="sortType === 'type' && !sortReverse" class="fa fa-caret-down desc"></span>
               <span *ngIf="sortType === 'type' && sortReverse" class="fa fa-caret-up asc"></span>
             </span>

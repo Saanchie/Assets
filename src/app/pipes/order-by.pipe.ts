@@ -1,14 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { BaseService } from 'src/services/service';
 
 @Pipe({
   name: 'orderBy'
 })
 export class OrderByPipe implements PipeTransform {
-  constructor(private baseService: BaseService) {}
 
   transform(value: any[], order: string, sortReverse: boolean, ...args: any[]): any[] {
-      this.baseService.setDefault();
       if (!value) { return value; } // no array
       else if (value.length <= 1) { return value; } // array with only one item
       else {

@@ -20,7 +20,6 @@ export class BaseService {
   public enableIdFilter = false;
   public enableNameFilter = false;
   public enablePriceFilter = false;
-  public enableLastUpdateFilter = false;
   public enableTypeFilter = false;
   public lastUpdateFilterMessage = false;
 
@@ -51,7 +50,6 @@ export class BaseService {
     this.enableIdFilter = false;
     this.enableNameFilter = false;
     this.enablePriceFilter = false;
-    this.enableLastUpdateFilter = false;
     this.enableTypeFilter = false; 
     this.lastUpdateFilterMessage = false;  
   }
@@ -138,7 +136,7 @@ export class BaseService {
 
   public filterAssets() {
     var assets = this.assets.slice();
-    this.setDefault();
+    this.lastUpdateFilterMessage = false;
 
     if (this.filterForm.value.idFilter < Constants.maxNumberOfAssets && this.filterForm.value.idFilter > Constants.minNumberOfAssets) {
       assets = assets.filter(asset => asset.getId() === this.filterForm.value.idFilter);
@@ -146,44 +144,50 @@ export class BaseService {
       this.enableIdFilter = true;
     }
 
-    else if (this.filterForm.value.idFilter > Constants.maxNumberOfAssets || this.filterForm.value.idFilter < Constants.minNumberOfAssets) {
+    if (this.filterForm.value.idFilter > Constants.maxNumberOfAssets || this.filterForm.value.idFilter < Constants.minNumberOfAssets) {
       assets = assets.filter(asset => asset.getId() === this.filterForm.value.idFilter);
       this.displayincorrectValue = true;
-      this.enableIdFilter = false;
+      this.enableIdFilter = true;
     }
 
-    else if (this.filterForm.value.assetNameFilter && this.filterForm.value.assetNameFilter.match('[a-zA-Z]+')) {
+    if (this.filterForm.value.idFilter === Constants.minNumberOfAssets) {
+      assets = assets.filter(asset => asset.getId() === this.filterForm.value.idFilter);
+      this.displayincorrectValue = true;
+      this.enableIdFilter = true;
+    }
+
+    if (this.filterForm.value.assetNameFilter && this.filterForm.value.assetNameFilter.match('[a-zA-Z]+')) {
       assets = assets.filter(asset => asset.getAssetName().toLowerCase().indexOf(this.filterForm.value.assetNameFilter.toLowerCase()) !== -1);
       this.enableNameFilter = true;
     }
 
-    else if (this.filterForm.value.assetNameFilter && !(this.filterForm.value.assetNameFilter.match('[a-zA-Z]+'))) {
+    if (this.filterForm.value.assetNameFilter && !(this.filterForm.value.assetNameFilter.match('[a-zA-Z]+'))) {
       assets = assets.filter(asset => asset.getAssetName().toLowerCase().indexOf(this.filterForm.value.assetNameFilter.toLowerCase()) !== -1);
       this.displayincorrectValue = true;
-      this.enableNameFilter = false;
+      this.enableNameFilter = true;
     }
 
-    else if (this.filterForm.value.priceFilter === Constants.priceRange1 ) {
+    if (this.filterForm.value.priceFilter === Constants.priceRange1 ) {
       assets = assets.filter(asset => (asset.getPrice() < Constants.maxPriceRange1 && asset.getPrice() > Constants.minPriceRange1));
       this.enablePriceFilter = true;
     }
 
-    else if (this.filterForm.value.priceFilter === Constants.priceRange2) {
+    if (this.filterForm.value.priceFilter === Constants.priceRange2) {
       assets = assets.filter(asset => (asset.getPrice() < Constants.maxPriceRange2 && asset.getPrice() > Constants.maxPriceRange1));
       this.enablePriceFilter = true;
     }
 
-    else if (this.filterForm.value.priceFilter === Constants.priceRange3) {
+    if (this.filterForm.value.priceFilter === Constants.priceRange3) {
       assets = assets.filter(asset => (asset.getPrice() < Constants.maxPriceRange3 && asset.getPrice() > Constants.maxPriceRange2));
       this.enablePriceFilter = true;
     }
 
-    else if (this.filterForm.value.priceFilter === Constants.priceRange4) {
+    if (this.filterForm.value.priceFilter === Constants.priceRange4) {
       assets = assets.filter(asset => (asset.getPrice() > Constants.maxPriceRange3));
       this.enablePriceFilter = true;
     }
 
-    else if (this.filterForm.value.typeFilter) {
+    if (this.filterForm.value.typeFilter) {
       assets = assets.filter(asset => asset.getType() === this.filterForm.value.typeFilter);
       this.enableTypeFilter = true;
     }
@@ -202,7 +206,13 @@ export class BaseService {
   }
 
   public filterLastUpdate() {
+    if(this.enableIdFilter||this.enableNameFilter||this.enablePriceFilter||this.enableTypeFilter){
+      this.lastUpdateFilterMessage = false;
+    }
+    else{
       this.lastUpdateFilterMessage = true;
+    }
+      
   }
 
 }
